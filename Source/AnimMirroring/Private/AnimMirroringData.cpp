@@ -5,37 +5,38 @@
 
 
 FMirrorMatchData::FMirrorMatchData()
-	: NameRule(EMirroringNameRule::FullMatch)
-	, BoneName()
-	, PairBoneName()
-	, MirrorAxis(EMirrorAxis::None)
+    : NameRule(EMirroringNameRule::FullMatch)
+    , BoneName()
+    , PairBoneName()
+    , MirrorAxis(EMirrorAxis::None)
 {
 
 }
 
 
 FMirrorMatchData::FMirrorMatchData(EMirroringNameRule InNameRule, const FString& InBoneName, EMirrorAxis InMirrorAxis)
-	: NameRule(InNameRule)
-	, BoneName(InBoneName)
-	, PairBoneName(InBoneName)
-	, MirrorAxis(InMirrorAxis)
+    : NameRule(InNameRule)
+    , BoneName(InBoneName)
+    , PairBoneName(InBoneName)
+    , MirrorAxis(InMirrorAxis)
 {
 
 }
 
 
 FMirrorMatchData::FMirrorMatchData(EMirroringNameRule InNameRule, const FString& InBoneName, const FString& InPairBoneName, EMirrorAxis InMirrorAxis)
-	: NameRule(InNameRule)
-	, BoneName(InBoneName)
-	, PairBoneName(InPairBoneName)
-	, MirrorAxis(InMirrorAxis)
+    : NameRule(InNameRule)
+    , BoneName(InBoneName)
+    , PairBoneName(InPairBoneName)
+    , MirrorAxis(InMirrorAxis)
 {
 
 }
 
 
 UAnimMirroringData::UAnimMirroringData(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+    : Super(ObjectInitializer)
+    , DefaultMirrorAxis(EMirrorAxis::None)
 {
 
 }
@@ -43,180 +44,180 @@ UAnimMirroringData::UAnimMirroringData(const FObjectInitializer& ObjectInitializ
 
 bool FMirrorInfo::IsMatchBoneName(const FString& BoneName, const FString& MatchStr, bool HeadMatch)
 {
-	const ESearchCase::Type SearchCase = ESearchCase::IgnoreCase;
+    const ESearchCase::Type SearchCase = ESearchCase::IgnoreCase;
 
-	if (HeadMatch) {
-		return BoneName.StartsWith(MatchStr, SearchCase);
-	}
-	else {
-		return BoneName.EndsWith(MatchStr, SearchCase);
-	}
+    if (HeadMatch) {
+        return BoneName.StartsWith(MatchStr, SearchCase);
+    }
+    else {
+        return BoneName.EndsWith(MatchStr, SearchCase);
+    }
 }
 
 
 FString FMirrorInfo::GetPairBoneName(const FString& BoneName, const FString& SourceMatchStr, const FString& TargetMatchStr, bool HeadMatch)
 {
-	if (HeadMatch) {
-		return TargetMatchStr + BoneName.RightChop(SourceMatchStr.Len());
-	}
-	else {
-		return BoneName.LeftChop(SourceMatchStr.Len()) + TargetMatchStr;
-	}
+    if (HeadMatch) {
+        return TargetMatchStr + BoneName.RightChop(SourceMatchStr.Len());
+    }
+    else {
+        return BoneName.LeftChop(SourceMatchStr.Len()) + TargetMatchStr;
+    }
 }
 
 
 void FMirrorInfo::AddItems(const FMirrorMatchData& MatchData, const FBoneContainer& BoneContainer, EMirrorAxis DefaultMirrorAxis, TArray<int32>& ProcessedBones)
 {
-	const FString& boneName = MatchData.BoneName;
-	const FString& pairBoneName = MatchData.PairBoneName;
-	const EMirrorAxis mirrorAxis = (MatchData.MirrorAxis == EMirrorAxis::Default) ? DefaultMirrorAxis : MatchData.MirrorAxis;
+    const FString& boneName = MatchData.BoneName;
+    const FString& pairBoneName = MatchData.PairBoneName;
+    const EMirrorAxis mirrorAxis = (MatchData.MirrorAxis == EMirrorAxis::Default) ? DefaultMirrorAxis : MatchData.MirrorAxis;
 
-	if (boneName.IsEmpty()) {
-		return;
-	}
+    if (boneName.IsEmpty()) {
+        return;
+    }
 
-	const bool validPairName = !pairBoneName.IsEmpty() && (boneName != pairBoneName);
+    const bool validPairName = !pairBoneName.IsEmpty() && (boneName != pairBoneName);
 
-	if (MatchData.NameRule == EMirroringNameRule::FullMatch) {
-		int32 iBone = BoneContainer.GetPoseBoneIndexForBoneName(FName(*boneName));
-		if (iBone < 0) {
-			return;
-		}
+    if (MatchData.NameRule == EMirroringNameRule::FullMatch) {
+        int32 iBone = BoneContainer.GetPoseBoneIndexForBoneName(FName(*boneName));
+        if (iBone < 0) {
+            return;
+        }
 
-		if (ProcessedBones.Contains(iBone)) {
-			return;
-		}
+        if (ProcessedBones.Contains(iBone)) {
+            return;
+        }
 
-		if (validPairName) {
-			int32 iPairBone = BoneContainer.GetPoseBoneIndexForBoneName(FName(*pairBoneName));
-			if (iPairBone < 0) {
-				return;
-			}
-			if (ProcessedBones.Contains(iPairBone)) {
-				return;
-			}
+        if (validPairName) {
+            int32 iPairBone = BoneContainer.GetPoseBoneIndexForBoneName(FName(*pairBoneName));
+            if (iPairBone < 0) {
+                return;
+            }
+            if (ProcessedBones.Contains(iPairBone)) {
+                return;
+            }
 
-			ProcessedBones.Add(iBone);
-			ProcessedBones.Add(iPairBone);
-			UE_LOG(LogAnimMirroring, Verbose, TEXT("Pair Mirror Bone = %s %s"), *boneName, *pairBoneName);
+            ProcessedBones.Add(iBone);
+            ProcessedBones.Add(iPairBone);
+            UE_LOG(LogAnimMirroring, Verbose, TEXT("Pair Mirror Bone = %s %s"), *boneName, *pairBoneName);
 
-			FMirrorInfoItem tmp;
-			tmp.IndexA = iBone;
-			tmp.IndexB = iPairBone;
-			tmp.MirrorAxis = mirrorAxis;
-			Items.Add(tmp);
-		}
-		else {
-			ProcessedBones.Add(iBone);
-			UE_LOG(LogAnimMirroring, Verbose, TEXT("Mirror Bone = %s"), *boneName);
+            FMirrorInfoItem tmp;
+            tmp.IndexA = iBone;
+            tmp.IndexB = iPairBone;
+            tmp.MirrorAxis = mirrorAxis;
+            Items.Add(tmp);
+        }
+        else {
+            ProcessedBones.Add(iBone);
+            UE_LOG(LogAnimMirroring, Verbose, TEXT("Mirror Bone = %s"), *boneName);
 
-			FMirrorInfoItem tmp;
-			tmp.IndexA = iBone;
-			tmp.IndexB = iBone;
-			tmp.MirrorAxis = mirrorAxis;
-			Items.Add(tmp);
-		}
-	}
-	else if (MatchData.NameRule == EMirroringNameRule::HeadMatch || MatchData.NameRule == EMirroringNameRule::TailMatch) {
-		const bool matchMode = (MatchData.NameRule == EMirroringNameRule::HeadMatch);
+            FMirrorInfoItem tmp;
+            tmp.IndexA = iBone;
+            tmp.IndexB = iBone;
+            tmp.MirrorAxis = mirrorAxis;
+            Items.Add(tmp);
+        }
+    }
+    else if (MatchData.NameRule == EMirroringNameRule::HeadMatch || MatchData.NameRule == EMirroringNameRule::TailMatch) {
+        const bool matchMode = (MatchData.NameRule == EMirroringNameRule::HeadMatch);
 
-		for (int32 iBone = 0; iBone < BoneContainer.GetCompactPoseNumBones(); iBone++) {
-			if (ProcessedBones.Contains(iBone)) {
-				continue;
-			}
+        for (int32 iBone = 0; iBone < BoneContainer.GetCompactPoseNumBones(); iBone++) {
+            if (ProcessedBones.Contains(iBone)) {
+                continue;
+            }
 
-			FString skelBoneName = BoneContainer.GetReferenceSkeleton().GetBoneName(BoneContainer.GetSkeletonIndex(FCompactPoseBoneIndex(iBone))).ToString();
-			if (!IsMatchBoneName(skelBoneName, boneName, matchMode)) {
-				continue;
-			}
+            FString skelBoneName = BoneContainer.GetReferenceSkeleton().GetBoneName(BoneContainer.GetSkeletonIndex(FCompactPoseBoneIndex(iBone))).ToString();
+            if (!IsMatchBoneName(skelBoneName, boneName, matchMode)) {
+                continue;
+            }
 
-			if (validPairName) {
-				FString skelPairBoneName = GetPairBoneName(skelBoneName, boneName, pairBoneName, matchMode);
+            if (validPairName) {
+                FString skelPairBoneName = GetPairBoneName(skelBoneName, boneName, pairBoneName, matchMode);
 
-				int32 iPairBone = BoneContainer.GetPoseBoneIndexForBoneName(FName(*skelPairBoneName));
-				if (iPairBone < 0) {
-					continue;
-				}
-				if (ProcessedBones.Contains(iPairBone)) {
-					continue;
-				}
+                int32 iPairBone = BoneContainer.GetPoseBoneIndexForBoneName(FName(*skelPairBoneName));
+                if (iPairBone < 0) {
+                    continue;
+                }
+                if (ProcessedBones.Contains(iPairBone)) {
+                    continue;
+                }
 
-				ProcessedBones.Add(iBone);
-				ProcessedBones.Add(iPairBone);
-				UE_LOG(LogAnimMirroring, Verbose, TEXT("Pair Mirror Bone = %s %s"), *skelBoneName, *skelPairBoneName);
+                ProcessedBones.Add(iBone);
+                ProcessedBones.Add(iPairBone);
+                UE_LOG(LogAnimMirroring, Verbose, TEXT("Pair Mirror Bone = %s %s"), *skelBoneName, *skelPairBoneName);
 
-				FMirrorInfoItem tmp;
-				tmp.IndexA = iBone;
-				tmp.IndexB = iPairBone;
-				tmp.MirrorAxis = mirrorAxis;
-				Items.Add(tmp);
-			}
-			else {
-				ProcessedBones.Add(iBone);
-				UE_LOG(LogAnimMirroring, Verbose, TEXT("Mirror Bone = %s"), *skelBoneName);
+                FMirrorInfoItem tmp;
+                tmp.IndexA = iBone;
+                tmp.IndexB = iPairBone;
+                tmp.MirrorAxis = mirrorAxis;
+                Items.Add(tmp);
+            }
+            else {
+                ProcessedBones.Add(iBone);
+                UE_LOG(LogAnimMirroring, Verbose, TEXT("Mirror Bone = %s"), *skelBoneName);
 
-				FMirrorInfoItem tmp;
-				tmp.IndexA = iBone;
-				tmp.IndexB = iBone;
-				tmp.MirrorAxis = mirrorAxis;
-				Items.Add(tmp);
-			}
-		}
-	}
+                FMirrorInfoItem tmp;
+                tmp.IndexA = iBone;
+                tmp.IndexB = iBone;
+                tmp.MirrorAxis = mirrorAxis;
+                Items.Add(tmp);
+            }
+        }
+    }
 }
 
 
 void FMirrorInfo::Initialize(const TArray<FMirrorMatchData>& OverrideMatches, const UAnimMirroringData* MirroringData, const FBoneContainer& BoneContainer, EMirrorAxis DefaultMirrorAxis)
 {
-	Items.Reset();
+    Items.Reset();
 
-	TArray<int32> processedBones;
+    TArray<int32> processedBones;
 
-	// 上書きのマッチ設定
-	for (int32 iMatch = 0; iMatch < OverrideMatches.Num(); iMatch++) {
-		AddItems(OverrideMatches[iMatch], BoneContainer, DefaultMirrorAxis, processedBones);
-	}
+    // 上書きのマッチ設定
+    for (int32 iMatch = 0; iMatch < OverrideMatches.Num(); iMatch++) {
+        AddItems(OverrideMatches[iMatch], BoneContainer, DefaultMirrorAxis, processedBones);
+    }
 
-	// アセットに設定されたマッチの設定
-	if (MirroringData) {
-		for (int32 iMatch = 0; iMatch < MirroringData->MirrorMatches.Num(); iMatch++) {
-			AddItems(MirroringData->MirrorMatches[iMatch], BoneContainer, DefaultMirrorAxis, processedBones);
-		}
-	}
+    // アセットに設定されたマッチの設定
+    if (MirroringData) {
+        for (int32 iMatch = 0; iMatch < MirroringData->MirrorMatches.Num(); iMatch++) {
+            AddItems(MirroringData->MirrorMatches[iMatch], BoneContainer, DefaultMirrorAxis, processedBones);
+        }
+    }
 
-	// 残ったボーンをすべて処理
-	for (int32 iBone = 0; iBone < BoneContainer.GetCompactPoseNumBones(); iBone++) {
-		if (processedBones.Contains(iBone)) {
-			continue;
-		}
+    // 残ったボーンをすべて処理
+    for (int32 iBone = 0; iBone < BoneContainer.GetCompactPoseNumBones(); iBone++) {
+        if (processedBones.Contains(iBone)) {
+            continue;
+        }
 
-		FMirrorInfoItem tmp;
-		tmp.IndexA = iBone;
-		tmp.IndexB = iBone;
-		tmp.MirrorAxis = DefaultMirrorAxis;
-		Items.Add(tmp);
-	}
+        FMirrorInfoItem tmp;
+        tmp.IndexA = iBone;
+        tmp.IndexB = iBone;
+        tmp.MirrorAxis = DefaultMirrorAxis;
+        Items.Add(tmp);
+    }
 }
 
 
 void FMirrorInfo::MirrorTransform(FTransform& Transform, EMirrorAxis MirrorAxis)
 {
-	auto _MirrorQuat = [](const FQuat& q, const FVector4& v) {
-		return FQuat(q.X * v.X, q.Y * v.Y, q.Z * v.Z, q.W * v.W);
-	};
+    auto _MirrorQuat = [](const FQuat& q, const FVector4& v) {
+        return FQuat(q.X * v.X, q.Y * v.Y, q.Z * v.Z, q.W * v.W);
+    };
 
-	switch (MirrorAxis) {
-	case EMirrorAxis::XAxis:
-		Transform.SetLocation(Transform.GetLocation() * FVector(-1.0f, 1.0f, 1.0f));
-		Transform.SetRotation(_MirrorQuat(Transform.GetRotation(), FVector4(-1.0f, 1.0f, 1.0f, -1.0f)));
-		break;
-	case EMirrorAxis::YAxis:
-		Transform.SetLocation(Transform.GetLocation() * FVector(1.0f, -1.0f, 1.0f));
-		Transform.SetRotation(_MirrorQuat(Transform.GetRotation(), FVector4(1.0f, -1.0f, 1.0f, -1.0f)));
-		break;
-	case EMirrorAxis::ZAxis:
-		Transform.SetLocation(Transform.GetLocation() * FVector(1.0f, 1.0f, -1.0f));
-		Transform.SetRotation(_MirrorQuat(Transform.GetRotation(), FVector4(1.0f, 1.0f, -1.0f, -1.0f)));
-		break;
-	}
+    switch (MirrorAxis) {
+    case EMirrorAxis::XAxis:
+        Transform.SetLocation(Transform.GetLocation() * FVector(-1.0f, 1.0f, 1.0f));
+        Transform.SetRotation(_MirrorQuat(Transform.GetRotation(), FVector4(-1.0f, 1.0f, 1.0f, -1.0f)));
+        break;
+    case EMirrorAxis::YAxis:
+        Transform.SetLocation(Transform.GetLocation() * FVector(1.0f, -1.0f, 1.0f));
+        Transform.SetRotation(_MirrorQuat(Transform.GetRotation(), FVector4(1.0f, -1.0f, 1.0f, -1.0f)));
+        break;
+    case EMirrorAxis::ZAxis:
+        Transform.SetLocation(Transform.GetLocation() * FVector(1.0f, 1.0f, -1.0f));
+        Transform.SetRotation(_MirrorQuat(Transform.GetRotation(), FVector4(1.0f, 1.0f, -1.0f, -1.0f)));
+        break;
+    }
 }
