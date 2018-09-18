@@ -17,7 +17,7 @@ FLinearColor UAnimGraphNode_ComponentSpaceMirroring::GetNodeTitleColor() const
 //Node Category
 FString UAnimGraphNode_ComponentSpaceMirroring::GetNodeCategory() const
 {
-	return FString("Magnet");
+	return FString("AnimNode");
 }
 FString UAnimGraphNode_ComponentSpaceMirroring::GetControllerDescription() const
 {

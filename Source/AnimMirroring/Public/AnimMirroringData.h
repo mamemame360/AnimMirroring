@@ -5,7 +5,7 @@
 
 
 /** ミラーリングの軸 */
-UENUM()
+UENUM(BlueprintType)
 enum class EMirrorAxis : uint8
 {
 	None,
@@ -17,8 +17,8 @@ enum class EMirrorAxis : uint8
 
 
 /** ミラーリングするボーン名の指定規則 */
-UENUM()
-enum class EMirroringNameRule
+UENUM(BlueprintType)
+enum class EMirroringNameRule : uint8
 {
 	FullMatch,	//<! 完全一致
 	HeadMatch,	//<! 前方一致
@@ -28,7 +28,7 @@ enum class EMirroringNameRule
 
 /** ミラーリングするポーン情報 */
 USTRUCT(BlueprintType)
-struct FMirrorMatchData
+struct ANIMMIRRORING_API FMirrorMatchData
 {
 	GENERATED_BODY()
 
@@ -64,43 +64,4 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FMirrorMatchData> MirrorMatches;
-};
-
-
-struct FBoneContainer;
-
-/** ミラーリング情報(内部使用) */
-USTRUCT()
-struct FMirrorInfoItem
-{
-	GENERATED_BODY()
-
-	UPROPERTY()
-	int32 IndexA;
-
-	UPROPERTY()
-	int32 IndexB;
-
-	UPROPERTY()
-	EMirrorAxis MirrorAxis;
-};
-
-
-/** ミラーリング情報(内部使用) */
-USTRUCT()
-struct FMirrorInfo
-{
-	GENERATED_BODY()
-
-	UPROPERTY()
-	TArray<FMirrorInfoItem> Items;
-
-	void AddItems(const FMirrorMatchData& MatchData, const FBoneContainer& BoneContainer, EMirrorAxis DefaultMirrorAxis, TArray<int32>& ProcessedBones);
-	void Initialize(const TArray<FMirrorMatchData>& OverrideMatches, const UAnimMirroringData* MirroringData, const FBoneContainer& BoneContainer, EMirrorAxis DefaultMirrorAxis);
-
-	static void MirrorTransform(FTransform& Transform, EMirrorAxis MirrorAxis);
-
-private:
-	bool IsMatchBoneName(const FString& BoneName, const FString& MatchStr, bool HeadMatch);
-	FString GetPairBoneName(const FString& BoneName, const FString& SourceMatchStr, const FString& TargetMatchStr, bool HeadMatch);
 };

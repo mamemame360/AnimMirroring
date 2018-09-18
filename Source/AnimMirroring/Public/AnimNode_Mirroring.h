@@ -4,6 +4,7 @@
 #include "Animation/AnimationAsset.h"
 #include "Animation/AnimNodeBase.h"
 #include "AnimMirroringData.h"
+#include "AnimMirroringInfo.h"
 
 #include "AnimNode_Mirroring.generated.h"
 
