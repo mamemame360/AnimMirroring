@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ModuleManager.h"
+#include "Runtime/Core/Public/Modules/ModuleManager.h"
 
 class FAnimMirroringModule : public IModuleInterface
 {
