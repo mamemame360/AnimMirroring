@@ -2,7 +2,7 @@
 
 
 FMirrorMatchData::FMirrorMatchData()
-	: NameRule(EMirroringNameRule::FullMatch)
+	: NameRule(EMirroringNameRule::Never)
 	, BoneName()
 	, PairBoneName()
 	, MirrorAxis(EMirrorAxis::None)

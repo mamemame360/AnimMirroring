@@ -9,7 +9,6 @@ UENUM(BlueprintType)
 enum class EMirrorAxis : uint8
 {
 	None,
-	Default,
 	XAxis,
 	YAxis,
 	ZAxis,
@@ -20,9 +19,11 @@ enum class EMirrorAxis : uint8
 UENUM(BlueprintType)
 enum class EMirroringNameRule : uint8
 {
-	FullMatch,	//<! 完全一致
+	Never,	//!< 常に不一致
+	Always,	//<! 常に一致
+	ExactMatch,	//<! 完全一致
 	HeadMatch,	//<! 前方一致
-	TailMatch		// ! 後方一致
+	TailMatch	//<! 後方一致
 };
 
 

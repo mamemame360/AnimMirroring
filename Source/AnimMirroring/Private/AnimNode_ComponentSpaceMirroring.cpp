@@ -42,7 +42,7 @@ void FAnimNode_ComponentSpaceMirroring::CacheBones_AnyThread(const FAnimationCac
 
 	}
 
-	MirrorInfo.Initialize(OverrideMirrorMatches, MirroringData, BoneContainer, DefaultMirrorAxis);
+	MirrorInfo.Initialize(OverrideMirrorMatches, MirroringData, BoneContainer);
 }
 
 

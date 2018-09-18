@@ -32,8 +32,8 @@ struct FMirrorInfo
 	UPROPERTY()
 	TArray<FMirrorInfoItem> Items;
 
-	void AddItems(const FMirrorMatchData& MatchData, const FBoneContainer& BoneContainer, EMirrorAxis DefaultMirrorAxis, TArray<int32>& ProcessedBones);
-	void Initialize(const TArray<FMirrorMatchData>& OverrideMatches, const UAnimMirroringData* MirroringData, const FBoneContainer& BoneContainer, EMirrorAxis DefaultMirrorAxis);
+	void AddItems(const FMirrorMatchData& MatchData, const FBoneContainer& BoneContainer, TArray<int32>& ProcessedBones);
+	void Initialize(const TArray<FMirrorMatchData>& OverrideMatches, const UAnimMirroringData* MirroringData, const FBoneContainer& BoneContainer);
 
 	static void MirrorTransform(FTransform& Transform, EMirrorAxis MirrorAxis);
 

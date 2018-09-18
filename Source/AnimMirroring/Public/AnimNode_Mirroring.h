@@ -23,9 +23,6 @@ struct ANIMMIRRORING_API FAnimNode_Mirroring : public FAnimNode_Base
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	TArray<FMirrorMatchData> OverrideMirrorMatches;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
-	EMirrorAxis DefaultMirrorAxis;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (PinHiddenByDefault))
 	bool MirroringEnable;
 

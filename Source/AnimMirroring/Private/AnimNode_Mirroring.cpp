@@ -25,7 +25,7 @@ void FAnimNode_Mirroring::CacheBones_AnyThread(const FAnimationCacheBonesContext
 
 	const FBoneContainer& BoneContainer = Context.AnimInstanceProxy->GetRequiredBones();
 
-	MirrorInfo.Initialize(OverrideMirrorMatches, MirroringData, BoneContainer, DefaultMirrorAxis);
+	MirrorInfo.Initialize(OverrideMirrorMatches, MirroringData, BoneContainer);
 }
 
 
