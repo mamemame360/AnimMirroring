@@ -6,8 +6,8 @@
 
 FAnimNode_ComponentSpaceMirroring::FAnimNode_ComponentSpaceMirroring()
 	: FAnimNode_Base()
-	, MirroringEnable(true)
 	, MirroringData(nullptr)
+	, MirroringEnable(true)
 {
 }
 
@@ -48,7 +48,7 @@ void FAnimNode_ComponentSpaceMirroring::CacheBones_AnyThread(const FAnimationCac
 
 void FAnimNode_ComponentSpaceMirroring::Update_AnyThread(const FAnimationUpdateContext & Context)
 {
-	EvaluateGraphExposedInputs.Execute(Context);
+	GetEvaluateGraphExposedInputs().Execute(Context);
 	ComponentPose.Update(Context);
 }
 

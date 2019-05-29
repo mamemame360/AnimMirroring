@@ -8,7 +8,6 @@ public class AnimMirroringEditor : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				"AnimMirroringEditor/Public"
 				// ... add public include paths required here ...
 			}
 			);
@@ -16,7 +15,6 @@ public class AnimMirroringEditor : ModuleRules
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				"AnimMirroringEditor/Private",
 				// ... add other private include paths required here ...
 			}
 			);

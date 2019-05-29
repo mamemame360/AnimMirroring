@@ -6,8 +6,8 @@
 
 FAnimNode_Mirroring::FAnimNode_Mirroring()
 	: FAnimNode_Base()
-	, MirroringEnable(true)
 	, MirroringData(nullptr)
+	, MirroringEnable(true)
 {
 }
 
@@ -31,7 +31,7 @@ void FAnimNode_Mirroring::CacheBones_AnyThread(const FAnimationCacheBonesContext
 
 void FAnimNode_Mirroring::Update_AnyThread(const FAnimationUpdateContext & Context)
 {
-	EvaluateGraphExposedInputs.Execute(Context);
+	GetEvaluateGraphExposedInputs().Execute(Context);
 	BasePose.Update(Context);
 }
 
