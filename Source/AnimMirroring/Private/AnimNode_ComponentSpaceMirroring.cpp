@@ -15,12 +15,6 @@ FAnimNode_ComponentSpaceMirroring::FAnimNode_ComponentSpaceMirroring()
 void FAnimNode_ComponentSpaceMirroring::Initialize_AnyThread(const FAnimationInitializeContext & Context)
 {
 	ComponentPose.Initialize(Context);
-}
-
-
-void FAnimNode_ComponentSpaceMirroring::CacheBones_AnyThread(const FAnimationCacheBonesContext & Context)
-{
-	ComponentPose.CacheBones(Context);
 
 	const FBoneContainer& BoneContainer = Context.AnimInstanceProxy->GetRequiredBones();
 
@@ -43,6 +37,12 @@ void FAnimNode_ComponentSpaceMirroring::CacheBones_AnyThread(const FAnimationCac
 	}
 
 	MirrorInfo.Initialize(OverrideMirrorMatches, MirroringData, BoneContainer);
+}
+
+
+void FAnimNode_ComponentSpaceMirroring::CacheBones_AnyThread(const FAnimationCacheBonesContext & Context)
+{
+	ComponentPose.CacheBones(Context);
 }
 
 

@@ -16,16 +16,16 @@ FAnimNode_Mirroring::FAnimNode_Mirroring()
 void FAnimNode_Mirroring::Initialize_AnyThread(const FAnimationInitializeContext & Context)
 {
 	BasePose.Initialize(Context);
+
+	const FBoneContainer& BoneContainer = Context.AnimInstanceProxy->GetRequiredBones();
+
+	MirrorInfo.Initialize(OverrideMirrorMatches, MirroringData, BoneContainer);
 }
 
 
 void FAnimNode_Mirroring::CacheBones_AnyThread(const FAnimationCacheBonesContext & Context)
 {
 	BasePose.CacheBones(Context);
-
-	const FBoneContainer& BoneContainer = Context.AnimInstanceProxy->GetRequiredBones();
-
-	MirrorInfo.Initialize(OverrideMirrorMatches, MirroringData, BoneContainer);
 }
 
 
