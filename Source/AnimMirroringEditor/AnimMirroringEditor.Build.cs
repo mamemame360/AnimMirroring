@@ -24,10 +24,6 @@ public class AnimMirroringEditor : ModuleRules
 			new string[]
 			{
 				"Core",
-				"AnimGraph",
-				"AnimGraphRuntime",
-				"BlueprintGraph",
-				"AnimMirroring"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -36,20 +32,17 @@ public class AnimMirroringEditor : ModuleRules
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
-		"Core",
-		"CoreUObject",
-		"Engine",
-		"Slate",
-		"SlateCore",
-		"UnrealEd",
-		"GraphEditor",
-		"PropertyEditor",
-		"EditorStyle",
-		"ContentBrowser",
-		"AnimMirroring",
-		"AnimGraph",
-		"AnimGraphRuntime",
-		"RHI",
+				"Core",
+				"CoreUObject",
+				"Engine",
+				"Slate",
+				"SlateCore",
+                "UnrealEd",
+                "AnimMirroring",
+                "BlueprintGraph",
+                "AnimGraph",
+				"AnimGraphRuntime",
+				"RHI",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

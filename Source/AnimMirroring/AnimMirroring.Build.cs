@@ -24,9 +24,6 @@ public class AnimMirroring : ModuleRules
 			new string[]
 			{
 				"Core",
-				"AnimationCore",
-				"AnimGraphRuntime",
-				"AnimGraph",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
