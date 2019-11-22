@@ -19,11 +19,16 @@ enum class EMirrorAxis : uint8
 UENUM(BlueprintType)
 enum class EMirroringNameRule : uint8
 {
-	Never,	//!< 常に不一致
-	Always,	//<! 常に一致
-	ExactMatch,	//<! 完全一致
-	HeadMatch,	//<! 前方一致
-	TailMatch	//<! 後方一致
+	//!< 常に不一致
+	Never,
+	//<! 常に一致
+	Always,
+	//<! 完全一致
+	ExactMatch,
+	//<! 前方一致
+	HeadMatch,
+	//<! 後方一致
+	TailMatch
 };
 
 

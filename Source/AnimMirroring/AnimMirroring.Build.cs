@@ -8,7 +8,6 @@ public class AnimMirroring : ModuleRules
 
 		PublicIncludePaths.AddRange(
 			new string[] {
-				"AnimMirroring/Public"
 				// ... add public include paths required here ...
 			}
 			);
@@ -16,7 +15,6 @@ public class AnimMirroring : ModuleRules
 
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				"AnimMirroring/Private",
 				// ... add other private include paths required here ...
 			}
 			);
@@ -26,9 +24,6 @@ public class AnimMirroring : ModuleRules
 			new string[]
 			{
 				"Core",
-				"AnimationCore",
-				"AnimGraphRuntime",
-				"AnimGraph",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -41,7 +36,6 @@ public class AnimMirroring : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"RenderCore",
-				"ShaderCore",
 				"RHI",
 				"AnimGraphRuntime",
 				// ... add private dependencies that you statically link with here ...

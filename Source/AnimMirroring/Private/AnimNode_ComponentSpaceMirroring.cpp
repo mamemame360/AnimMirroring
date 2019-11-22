@@ -6,8 +6,8 @@
 
 FAnimNode_ComponentSpaceMirroring::FAnimNode_ComponentSpaceMirroring()
 	: FAnimNode_Base()
-	, MirroringEnable(true)
 	, MirroringData(nullptr)
+	, MirroringEnable(true)
 {
 }
 
@@ -15,12 +15,6 @@ FAnimNode_ComponentSpaceMirroring::FAnimNode_ComponentSpaceMirroring()
 void FAnimNode_ComponentSpaceMirroring::Initialize_AnyThread(const FAnimationInitializeContext & Context)
 {
 	ComponentPose.Initialize(Context);
-}
-
-
-void FAnimNode_ComponentSpaceMirroring::CacheBones_AnyThread(const FAnimationCacheBonesContext & Context)
-{
-	ComponentPose.CacheBones(Context);
 
 	const FBoneContainer& BoneContainer = Context.AnimInstanceProxy->GetRequiredBones();
 
@@ -46,9 +40,15 @@ void FAnimNode_ComponentSpaceMirroring::CacheBones_AnyThread(const FAnimationCac
 }
 
 
+void FAnimNode_ComponentSpaceMirroring::CacheBones_AnyThread(const FAnimationCacheBonesContext & Context)
+{
+	ComponentPose.CacheBones(Context);
+}
+
+
 void FAnimNode_ComponentSpaceMirroring::Update_AnyThread(const FAnimationUpdateContext & Context)
 {
-	EvaluateGraphExposedInputs.Execute(Context);
+	GetEvaluateGraphExposedInputs().Execute(Context);
 	ComponentPose.Update(Context);
 }
 
