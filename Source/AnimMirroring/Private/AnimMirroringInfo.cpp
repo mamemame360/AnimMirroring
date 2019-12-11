@@ -1,7 +1,7 @@
 #include "AnimMirroringInfo.h"
 #include "AnimMirroringLog.h"
-#include "AnimationRuntime.h"
-#include "Animation/AnimInstanceProxy.h"
+#include <AnimationRuntime.h>
+#include <Animation/AnimInstanceProxy.h>
 
 bool FMirrorInfo::IsMatchBoneName(const FString& BoneName, const FString& MatchStr, bool HeadMatch)
 {
