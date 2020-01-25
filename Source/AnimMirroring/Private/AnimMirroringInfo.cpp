@@ -104,14 +104,7 @@ void FMirrorInfo::AddItems(const FMirrorMatchData& MatchData, const FBoneContain
 				continue;
 			}
 
-			int32 SkeletonIndex = BoneContainer.GetSkeletonIndex(FCompactPoseBoneIndex(iBone));
-
-			if (SkeletonIndex >= BoneContainer.GetNumBones())
-			{
-				continue;
-			}
-
-			FString skelBoneName = BoneContainer.GetReferenceSkeleton().GetBoneName(SkeletonIndex).ToString();
+			FString skelBoneName = BoneContainer.GetReferenceSkeleton().GetBoneName(iBone).ToString();
 			if (!IsMatchBoneName(skelBoneName, boneName, matchMode)) {
 				continue;
 			}
