@@ -30,7 +30,7 @@ UObject* UAnimMirroringDataFactory::FactoryCreateNew(UClass* InClass, UObject* I
 	}
 
 	MirroringData->DefaultMirrorAxis = EMirrorAxis::XAxis;
-	MirroringData->MirrorMatches.Add(FMirrorMatchData(EMirroringNameRule::TailMatch, FString("_l"), FString("_r"), EMirrorAxis::XAxis));
+	MirroringData->MirrorMatches.Add(FMirrorMatchData(EMirroringNameRule::TailMatch, TEXT("_l"), TEXT("_r"), EMirrorAxis::XAxis));
 
 	return MirroringData;
 }

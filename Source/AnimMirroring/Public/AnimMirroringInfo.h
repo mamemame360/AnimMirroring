@@ -38,6 +38,13 @@ struct FMirrorInfo
 	static void MirrorTransform(FTransform& Transform, EMirrorAxis MirrorAxis);
 
 private:
-	bool IsMatchBoneName(const FString& BoneName, const FString& MatchStr, bool HeadMatch);
-	FString GetPairBoneName(const FString& BoneName, const FString& SourceMatchStr, const FString& TargetMatchStr, bool HeadMatch);
+	enum class EMatchMode
+	{
+		HeadMatch,
+		TailMatch,
+		WordMatch
+	};
+
+	bool IsMatchBoneName(const FString& BoneName, const FString& MatchStr, EMirroringNameRule MatchMode);
+	FString GetPairBoneName(const FString& BoneName, const FString& SourceMatchStr, const FString& TargetMatchStr, EMirroringNameRule MatchMode);
 };
