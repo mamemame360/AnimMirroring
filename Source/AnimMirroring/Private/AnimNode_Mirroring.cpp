@@ -1,7 +1,7 @@
 #include "AnimNode_Mirroring.h"
 #include "AnimMirroringLog.h"
-#include "AnimationRuntime.h"
-#include "Animation/AnimInstanceProxy.h"
+#include <AnimationRuntime.h>
+#include <Animation/AnimInstanceProxy.h>
 
 
 FAnimNode_Mirroring::FAnimNode_Mirroring()

@@ -1,31 +1,39 @@
 #include "AnimMirroringInfo.h"
 #include "AnimMirroringLog.h"
-#include "AnimationRuntime.h"
-#include "Animation/AnimInstanceProxy.h"
+#include <AnimationRuntime.h>
+#include <Animation/AnimInstanceProxy.h>
 
-bool FMirrorInfo::IsMatchBoneName(const FString& BoneName, const FString& MatchStr, bool HeadMatch)
+bool FMirrorInfo::IsMatchBoneName(const FString& BoneName, const FString& MatchStr, EMirroringNameRule MatchMode)
 {
 	const ESearchCase::Type SearchCase = ESearchCase::IgnoreCase;
 
-	if (HeadMatch) {
+	switch (MatchMode)
+	{
+	case EMirroringNameRule::HeadMatch:
 		return BoneName.StartsWith(MatchStr, SearchCase);
-	}
-	else {
+	case EMirroringNameRule::TailMatch:
 		return BoneName.EndsWith(MatchStr, SearchCase);
+	case EMirroringNameRule::WordMatch:
+		return BoneName.Contains(MatchStr);
 	}
+	checkNoEntry();
+	return false;
 }
 
-
-FString FMirrorInfo::GetPairBoneName(const FString& BoneName, const FString& SourceMatchStr, const FString& TargetMatchStr, bool HeadMatch)
+FString FMirrorInfo::GetPairBoneName(const FString& BoneName, const FString& SourceMatchStr, const FString& TargetMatchStr, EMirroringNameRule MatchMode)
 {
-	if (HeadMatch) {
+	switch (MatchMode)
+	{
+	case EMirroringNameRule::HeadMatch:
 		return TargetMatchStr + BoneName.RightChop(SourceMatchStr.Len());
-	}
-	else {
+	case EMirroringNameRule::TailMatch:
 		return BoneName.LeftChop(SourceMatchStr.Len()) + TargetMatchStr;
+	case EMirroringNameRule::WordMatch:
+		return BoneName.Replace(*SourceMatchStr, *TargetMatchStr);
 	}
+	checkNoEntry();
+	return FString();
 }
-
 
 void FMirrorInfo::AddItems(const FMirrorMatchData& MatchData, const FBoneContainer& BoneContainer, TArray<int32>& ProcessedBones)
 {
@@ -40,7 +48,7 @@ void FMirrorInfo::AddItems(const FMirrorMatchData& MatchData, const FBoneContain
 			return;
 		}
 
-		int32 iBone = BoneContainer.GetPoseBoneIndexForBoneName(FName(*boneName));
+		int32 iBone = BoneContainer.GetPoseBoneIndexForBoneName(*boneName);
 		if (iBone < 0) {
 			return;
 		}
@@ -50,7 +58,7 @@ void FMirrorInfo::AddItems(const FMirrorMatchData& MatchData, const FBoneContain
 		}
 
 		if (validPairName) {
-			int32 iPairBone = BoneContainer.GetPoseBoneIndexForBoneName(FName(*pairBoneName));
+			int32 iPairBone = BoneContainer.GetPoseBoneIndexForBoneName(*pairBoneName);
 			if (iPairBone < 0) {
 				return;
 			}
@@ -92,34 +100,26 @@ void FMirrorInfo::AddItems(const FMirrorMatchData& MatchData, const FBoneContain
 			Items.Add(tmp);
 		}
 	}
-	else if (MatchData.NameRule == EMirroringNameRule::HeadMatch || MatchData.NameRule == EMirroringNameRule::TailMatch) {
+	else if (MatchData.NameRule == EMirroringNameRule::HeadMatch || MatchData.NameRule == EMirroringNameRule::TailMatch || MatchData.NameRule == EMirroringNameRule::WordMatch) {
 		if (boneName.IsEmpty()) {
 			return;
 		}
-
-		const bool matchMode = (MatchData.NameRule == EMirroringNameRule::HeadMatch);
 
 		for (int32 iBone = 0; iBone < BoneContainer.GetCompactPoseNumBones(); iBone++) {
 			if (ProcessedBones.Contains(iBone)) {
 				continue;
 			}
 
-			int32 SkeletonIndex = BoneContainer.GetSkeletonIndex(FCompactPoseBoneIndex(iBone));
+			const FString skelBoneName = BoneContainer.GetReferenceSkeleton().GetBoneName(iBone).ToString();
 
-			if (SkeletonIndex >= BoneContainer.GetNumBones())
-			{
-				continue;
-			}
-
-			FString skelBoneName = BoneContainer.GetReferenceSkeleton().GetBoneName(SkeletonIndex).ToString();
-			if (!IsMatchBoneName(skelBoneName, boneName, matchMode)) {
+			if (!IsMatchBoneName(skelBoneName, boneName, MatchData.NameRule)) {
 				continue;
 			}
 
 			if (validPairName) {
-				FString skelPairBoneName = GetPairBoneName(skelBoneName, boneName, pairBoneName, matchMode);
+				const FString skelPairBoneName = GetPairBoneName(skelBoneName, boneName, pairBoneName, MatchData.NameRule);
 
-				int32 iPairBone = BoneContainer.GetPoseBoneIndexForBoneName(FName(*skelPairBoneName));
+				int32 iPairBone = BoneContainer.GetPoseBoneIndexForBoneName(*skelPairBoneName);
 				if (iPairBone < 0) {
 					continue;
 				}

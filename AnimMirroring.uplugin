@@ -14,15 +14,15 @@
 	"IsBetaVersion": false,
 	"Installed": false,
 	"Modules": [
-		{
-			"Name": "AnimMirroring",
-			"Type": "Developer",
-			"LoadingPhase": "Default"
-		},
-		{
-			"Name": "AnimMirroringEditor",
-			"Type": "Developer",
-			"LoadingPhase": "PreDefault"
-		}
+    {
+      "Name": "AnimMirroring",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    },
+    {
+      "Name": "AnimMirroringEditor",
+      "Type": "Editor",
+      "LoadingPhase": "PreDefault"
+    }
 	]
 }

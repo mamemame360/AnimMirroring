@@ -1,7 +1,7 @@
 #include "AnimNode_ComponentSpaceMirroring.h"
 #include "AnimMirroringLog.h"
-#include "AnimationRuntime.h"
-#include "Animation/AnimInstanceProxy.h"
+#include <AnimationRuntime.h>
+#include <Animation/AnimInstanceProxy.h>
 
 
 FAnimNode_ComponentSpaceMirroring::FAnimNode_ComponentSpaceMirroring()
