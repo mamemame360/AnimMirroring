@@ -6,7 +6,7 @@
 
 struct FBoneContainer;
 
-/** ミラーリング情報(内部使用) */
+/** (internal use) */
 USTRUCT()
 struct FMirrorInfoItem
 {
@@ -23,7 +23,7 @@ struct FMirrorInfoItem
 };
 
 
-/** ミラーリング情報(内部使用) */
+/** internal use */
 USTRUCT()
 struct FMirrorInfo
 {

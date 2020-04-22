@@ -65,9 +65,10 @@ void FAnimNode_ComponentSpaceMirroring::EvaluateComponentSpace_AnyThread(FCompon
 	CurrentTransforms.Reserve(Output.Pose.GetPose().GetNumBones());
 
 	// save current component space pose.
-	// ループ中にSetComponentSpaceTransformを使うと、GetComponentSpaceTransformの戻ってくる値が更新されてしまうので
-	// 先にすべてのポーズを保管しておく。
-	for (int32 iBone = 0; iBone < Output.Pose.GetPose().GetNumBones(); iBone++) {
+	// If we use SetComponentSpaceTransform during the loop, the return value of GetComponentSpaceTransform will be updated.
+	// so we should save all the poses first.
+	for (int32 iBone = 0; iBone < Output.Pose.GetPose().GetNumBones(); iBone++)
+	{
 		FCompactPoseBoneIndex boneIndex(iBone);
 		CurrentTransforms.Add(Output.Pose.GetComponentSpaceTransform(boneIndex));
 	}

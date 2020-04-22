@@ -4,7 +4,7 @@
 #include "AnimMirroringData.generated.h"
 
 
-/** ミラーリングの軸 */
+/** mirroring axis */
 UENUM(BlueprintType)
 enum class EMirrorAxis : uint8
 {
@@ -15,7 +15,7 @@ enum class EMirrorAxis : uint8
 };
 
 
-/** ミラーリングするボーン名の指定規則 */
+/** bone name matching rule */
 UENUM(BlueprintType)
 enum class EMirroringNameRule : uint8
 {
@@ -34,23 +34,23 @@ enum class EMirroringNameRule : uint8
 };
 
 
-/** ミラーリングするポーン情報 */
+/** Bone Matching Data */
 USTRUCT(BlueprintType)
 struct ANIMMIRRORING_API FMirrorMatchData
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EMirroringNameRule NameRule;	//!< ボーン名の指定規則
+	EMirroringNameRule NameRule;	//!< matching rule
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString BoneName;	//!< 対象ボーンの名前
+	FString BoneName;	//!< target bone name
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString PairBoneName;	//!< ミラーリングする時の対になるボーンの名前(省略した場合は単独でミラーリングする)
+	FString PairBoneName;	//!< pair bone name.(if empty, mirrored alone.)
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EMirrorAxis MirrorAxis;	//!< ミラーリングの軸
+	EMirrorAxis MirrorAxis;	//!< mirroring axis.
 
 	FMirrorMatchData();
 	FMirrorMatchData(EMirroringNameRule InNameRule, const FString& InBoneName, EMirrorAxis InMirrorAxis);
@@ -58,7 +58,7 @@ struct ANIMMIRRORING_API FMirrorMatchData
 };
 
 
-/** ミラーリング用データ */
+/** mirroring data */
 UCLASS()
 class ANIMMIRRORING_API UAnimMirroringData : public UObject
 {
