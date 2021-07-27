@@ -4,7 +4,7 @@ public class AnimMirroringEditor : ModuleRules
 {
 	public AnimMirroringEditor(ReadOnlyTargetRules Target) : base(Target)
 	{
-		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicIncludePaths.AddRange(
 			new string[] {
@@ -43,6 +43,8 @@ public class AnimMirroringEditor : ModuleRules
 				"AnimGraph",
 				"AnimGraphRuntime",
 				"RHI",
+				"AssetTools",
+				"UnrealEd",
 				// ... add private dependencies that you statically link with here ...
 			}
 			);

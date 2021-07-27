@@ -4,8 +4,9 @@
 UAnimMirroringDataFactory::UAnimMirroringDataFactory(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	SupportedClass = UAnimMirroringData::StaticClass();
 	bCreateNew = true;
+	bEditAfterNew = true;
+	SupportedClass = UAnimMirroringData::StaticClass();
 }
 
 

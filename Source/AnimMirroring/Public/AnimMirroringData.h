@@ -59,7 +59,7 @@ struct ANIMMIRRORING_API FMirrorMatchData
 
 
 /** mirroring data */
-UCLASS()
+UCLASS(BlueprintType)
 class ANIMMIRRORING_API UAnimMirroringData : public UObject
 {
 	GENERATED_BODY()
