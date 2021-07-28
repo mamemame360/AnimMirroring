@@ -10,11 +10,7 @@ void FAnimMirroringEditorModule::StartupModule()
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 
 	IAssetTools& AssetTools = FModuleManager::LoadModuleChecked<FAssetToolsModule>("AssetTools").Get();
-
-	EAssetTypeCategories::Type gameAssetCategory = AssetTools.RegisterAdvancedAssetCategory(FName(TEXT("CustomCategory")), FText::FromName(TEXT("CustomCategory")));
-
-	TSharedPtr<IAssetTypeActions> actionType = MakeShareable(new FAnimMirroringDataAssetTypeActions(gameAssetCategory));
-
+	TSharedPtr<IAssetTypeActions> actionType = MakeShareable(new FAnimMirroringDataAssetTypeActions());
 	AssetTools.RegisterAssetTypeActions(actionType.ToSharedRef());
 }
 

@@ -1,7 +1,5 @@
 #pragma once
 #include "CoreMinimal.h"
-#include "UObject/ObjectMacros.h"
-#include <Animation/AnimationAsset.h>
 #include "Animation/AnimNodeBase.h"
 #include "AnimMirroringData.h"
 #include "AnimMirroringInfo.h"

@@ -1,8 +1,8 @@
 #include "AnimMirroringDataAssetTypeActions.h"
 
 
-FAnimMirroringDataAssetTypeActions::FAnimMirroringDataAssetTypeActions(EAssetTypeCategories::Type InAssetCategory)
-: MyAssetCategory(InAssetCategory)
+FAnimMirroringDataAssetTypeActions::FAnimMirroringDataAssetTypeActions()
+: FAssetTypeActions_Base()
 {
 }
 

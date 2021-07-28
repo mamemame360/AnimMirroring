@@ -32,11 +32,8 @@ public class AnimMirroring : ModuleRules
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core",
 				"CoreUObject",
 				"Engine",
-				"RenderCore",
-				"RHI",
 				"AnimGraphRuntime",
 				// ... add private dependencies that you statically link with here ...
 			}
